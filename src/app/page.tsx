@@ -5,11 +5,13 @@ import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import HeroPreviewPlayer from "@/components/marketing/HeroPreviewPlayer";
 import HowItWorks from "@/components/marketing/HowItWorks";
+import JsonLd, { softwareApplicationSchema } from "@/components/seo/JsonLd";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 export default function Landing() {
   return (
     <main className="relative min-h-screen bg-white text-slate-900 font-sans selection:bg-accent/20">
+      <JsonLd data={softwareApplicationSchema} />
       <div className="relative z-10">
         <Nav />
         <Hero />

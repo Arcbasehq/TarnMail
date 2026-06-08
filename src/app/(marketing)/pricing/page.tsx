@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/marketing/PageHero";
+import JsonLd, { faqSchema } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Pricing — tarnmail",
@@ -72,6 +73,7 @@ const faqs = [
 export default function PricingPage() {
   return (
     <>
+      <JsonLd data={faqSchema(faqs as [string, string][])} />
       <PageHero
         eyebrow="Pricing"
         title="Pay for software, not with your inbox."

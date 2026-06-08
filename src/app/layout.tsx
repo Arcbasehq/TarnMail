@@ -7,6 +7,7 @@ import { ConsentProvider } from "@/lib/consent/ConsentProvider";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import CookieBanner from "@/components/layout/CookieBanner";
 import Analytics from "@/components/layout/Analytics";
+import JsonLd, { organizationSchema, websiteSchema } from "@/components/seo/JsonLd";
 import * as Sentry from "@sentry/nextjs";
 import "./globals.css";
 
@@ -23,10 +24,65 @@ const mono = Roboto_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://tarnmail.xyz";
+
+const TITLE = "TarnMail — every inbox, one private window";
+const DESCRIPTION =
+  "Connect Gmail, Outlook and Yahoo and read all your mail from one encrypted client. No ad profiling, no content mining, no selling your data.";
+
 export const metadata: Metadata = {
-  title: "TarnMail: every inbox, one private window",
-  description:
-    "Connect Gmail, Outlook and Yahoo. Read and reply to all your mail from one encrypted client. No ad profiling, no content mining, no selling your data.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: TITLE,
+    // Per-page titles render as "Pricing — TarnMail", etc.
+    template: "%s — TarnMail",
+  },
+  description: DESCRIPTION,
+  applicationName: "TarnMail",
+  keywords: [
+    "unified inbox",
+    "email client",
+    "private email",
+    "Gmail Outlook Yahoo together",
+    "encrypted email",
+    "all inboxes in one place",
+    "OAuth email client",
+    "no tracking email",
+    "tarnmail",
+  ],
+  authors: [{ name: "TarnMail" }],
+  creator: "TarnMail",
+  publisher: "TarnMail",
+  category: "productivity",
+  alternates: {
+    canonical: "/",
+    languages: { en: "/", fr: "/" },
+  },
+  openGraph: {
+    type: "website",
+    siteName: "TarnMail",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: siteUrl,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   icons: {
     icon: "/logo.svg",
     apple: "/logo.svg",
@@ -80,6 +136,8 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
+        <JsonLd data={organizationSchema} />
+        <JsonLd data={websiteSchema} />
         <Script id="theme-init" strategy="beforeInteractive">
           {`(function(){try{var p=JSON.parse(localStorage.getItem('tarnmail.prefs')||'{}');var t=p.theme||'light';var d=t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;if(d)e.classList.add('dark');if(p.accent)e.style.setProperty('--accent',p.accent);if(p.accentDark)e.style.setProperty('--accent-dark',p.accentDark);var f={sm:'15px',base:'16px',lg:'18px'}[p.fontSize||'base'];if(f)e.style.fontSize=f;}catch(_){}})();`}
         </Script>
