@@ -26,7 +26,7 @@ const mono = Roboto_Mono({
 export const metadata: Metadata = {
   title: "TarnMail: every inbox, one private window",
   description:
-    "Connect Gmail, Outlook and Yahoo. Read and reply to all your mail from one encrypted client. We can't read it. We never sell it.",
+    "Connect Gmail, Outlook and Yahoo. Read and reply to all your mail from one encrypted client. No ad profiling, no content mining, no selling your data.",
   icons: {
     icon: "/logo.svg",
     apple: "/logo.svg",

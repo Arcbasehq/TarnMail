@@ -55,9 +55,9 @@ const tiers = [
 ];
 
 const faqs = [
-  [
-    "Do you ever read my mail?",
-    "No. We store an encrypted, scoped access token and render your mail in the client. There is no ad profiling or content mining.",
+    [
+    "Do you profile or sell my mail?",
+    "Never. We don't ad-profile you, mine your content, or sell your data. We store only an encrypted, scoped access token; your mail isn't kept in our database — it's fetched on demand to display it to you.",
   ],
   [
     "Can I cancel anytime?",

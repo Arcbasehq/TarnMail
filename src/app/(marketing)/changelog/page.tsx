@@ -8,35 +8,13 @@ export const metadata: Metadata = {
 
 const entries = [
   {
-    version: "1.4",
-    date: "June 4, 2026",
+    version: "1.0",
+    date: "June 7, 2026",
     items: [
-      "Cross-account search is now up to 3x faster on large mailboxes.",
-      "Added per-account filtering to the unified timeline.",
-    ],
-  },
-  {
-    version: "1.3",
-    date: "May 20, 2026",
-    items: [
-      "Yahoo Mail is now supported over OAuth.",
-      "Attachments can be previewed inline before download.",
-    ],
-  },
-  {
-    version: "1.2",
-    date: "May 6, 2026",
-    items: [
-      "Reply now sends through each provider's native pipeline.",
-      "Tokens are re-encrypted on a rotating key schedule.",
-    ],
-  },
-  {
-    version: "1.1",
-    date: "April 22, 2026",
-    items: [
-      "One-tap disconnect with immediate token purge.",
-      "Dark mode for the reading pane.",
+      "tarnmail is here. Connect Gmail, Outlook, and Yahoo and read them in one unified timeline.",
+      "Privacy by default: remote images and tracking pixels are blocked out of the box.",
+      "Your preferences and signatures follow you across every device you sign in on.",
+      "Business workspaces: invite employees, manage roles, and see their connected mailboxes from one dashboard.",
     ],
   },
 ];

@@ -39,7 +39,7 @@ export default function TermsPage() {
       <PageHero
         eyebrow="Legal"
         title="Terms & Conditions"
-        subtitle="Last updated June 1, 2026."
+        subtitle="Last updated June 7, 2026."
       />
       <section className="mx-auto max-w-3xl px-6 py-20">
         <div className="space-y-10">

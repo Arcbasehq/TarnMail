@@ -18,7 +18,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.heading1": "Every inbox,",
     "hero.heading2": "kept deep and quiet",
     "hero.subtext":
-      "tarnmail gathers Gmail, Outlook and Yahoo into a single encrypted client. Read, search and reply across every account at once. We can't read it, and we never sell it.",
+      "tarnmail gathers Gmail, Outlook and Yahoo into a single encrypted client. Read, search and reply across every account at once. No ad profiling, no content mining, no selling your data.",
     "hero.passwordless": "No password needed. See",
     "hero.howWeProtect": "how we protect your mail",
     "hero.cta": "Connect your inbox",
@@ -379,7 +379,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.heading1": "Chaque bo\u00eete,",
     "hero.heading2": "gard\u00e9e profonde et silencieuse",
     "hero.subtext":
-      "tarnmail rassemble Gmail, Outlook et Yahoo dans un seul client crypt\u00e9. Lisez, recherchez et r\u00e9pondez \u00e0 tous vos comptes \u00e0 la fois. Nous ne pouvons pas lire vos messages et nous ne les vendons jamais.",
+      "tarnmail rassemble Gmail, Outlook et Yahoo dans un seul client crypt\u00e9. Lisez, recherchez et r\u00e9pondez \u00e0 tous vos comptes \u00e0 la fois. Aucun profilage publicitaire, aucune exploitation du contenu, aucune vente de vos donn\u00e9es.",
     "hero.passwordless": "Aucun mot de passe requis \u2014 d\u00e9couvrez",
     "hero.howWeProtect": "comment nous prot\u00e9geons vos messages",
     "hero.cta": "Connecter votre bo\u00eete",

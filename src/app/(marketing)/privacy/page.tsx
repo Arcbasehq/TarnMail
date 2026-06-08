@@ -25,7 +25,7 @@ const sections = [
   ],
   [
     "Data requests",
-    "Email privacy@tarnmail.com to request a copy of your data or its deletion. We respond within 30 days.",
+    "Email info@libresearch.ca to request a copy of your data or its deletion. We respond within 30 days.",
   ],
 ];
 
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
       <PageHero
         eyebrow="Legal"
         title="Privacy Policy"
-        subtitle="Last updated June 1, 2026."
+        subtitle="Last updated June 7, 2026."
       />
       <section className="mx-auto max-w-3xl px-6 py-20">
         <div className="space-y-10">

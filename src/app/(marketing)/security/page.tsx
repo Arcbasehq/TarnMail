@@ -45,13 +45,12 @@ export default function SecurityPage() {
           <p className="mt-3 leading-relaxed text-slate-600">
             Found something? Email{" "}
             <a
-              href="mailto:security@tarnmail.com"
+              href="mailto:info@libresearch.ca"
               className="font-semibold text-accent hover:underline"
             >
-              security@tarnmail.com
+              info@libresearch.ca
             </a>{" "}
-            with details and steps to reproduce. We acknowledge reports within
-            48 hours.
+            with details and steps to reproduce.
           </p>
           <Link
             href="/contact"

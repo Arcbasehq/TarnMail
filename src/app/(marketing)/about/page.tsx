@@ -22,7 +22,7 @@ const values = [
   {
     icon: "fa-solid fa-key",
     t: "Open over locked-in",
-    d: "We build on IMAP and official provider APIs so your mail stays yours. Revoke our access from your account at any time.",
+    d: "We build on each provider's official API so your mail stays yours. Revoke our access from your account at any time.",
   },
 ];
 
@@ -31,24 +31,6 @@ const stats = [
   { value: "0", label: "Emails scanned for data" },
   { value: "256-bit", label: "Encryption at rest" },
   { value: "100%", label: "OAuth-only auth" },
-];
-
-const timeline = [
-  {
-    year: "2023",
-    title: "The problem",
-    desc: "We were drowning in inboxes. Gmail, Outlook, Yahoo. Each one tracking what we read, when we read it, and who we talked to.",
-  },
-  {
-    year: "2024",
-    title: "The idea",
-    desc: "A mail client you control. One calm surface for every inbox.",
-  },
-  {
-    year: "2025",
-    title: "The solution",
-    desc: "An encrypted mail client with zero surveillance, every inbox in one place. Built by a small team that uses it daily.",
-  },
 ];
 
 export default function AboutPage() {
@@ -70,16 +52,16 @@ export default function AboutPage() {
           collection, no bullshit.
         </p>
         <p className="mt-6 text-lg leading-relaxed text-slate-600">
-          Every major email provider scans your mail to profile you. Gmail
-          builds advertising profiles. Outlook trains AI on your threads. Yahoo
-          sold scan data to retailers. We asked: what if a mail client just...
-          worked for you?
+          We think a mail client should work for you, not mine your inbox for
+          ad targeting. tarnmail doesn't profile you, build advertising
+          segments, or sell anything about your mail.
         </p>
         <p className="mt-6 text-lg leading-relaxed text-slate-600">
-          So we built it. OAuth-only auth means we never see your password.
-          256-bit encryption at rest means we can't read your mail even if
-          we wanted to. IMAP + official APIs means your data never touches
-          our servers — it syncs direct from provider to your device.
+          OAuth-only sign-in means we never see your password. We connect
+          through each provider's official API and store only a scoped access
+          token, encrypted at rest with AES-256-GCM. Your mail isn't kept in our
+          database — it's fetched on demand to show it to you, and you can revoke
+          our access from your provider at any time.
         </p>
       </section>
 
@@ -119,83 +101,6 @@ export default function AboutPage() {
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-slate-500">
                   {v.d}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-4xl px-6 py-20">
-          <h2 className="text-center font-display text-3xl tracking-tight">
-            Our story
-          </h2>
-          <div className="relative mt-12">
-            <div className="absolute left-8 top-0 h-full w-px bg-slate-200 md:left-1/2 md:-translate-x-1/2" />
-            <div className="space-y-12">
-              {timeline.map((item, i) => (
-                <div
-                  key={item.year}
-                  className={`relative flex items-start gap-6 md:gap-12 ${
-                    i % 2 === 0 ? "md:flex-row-reverse" : ""
-                  }`}
-                >
-                  <div className="absolute left-8 top-0 h-4 w-4 -translate-x-1/2 rounded-full border-4 border-white bg-accent md:left-1/2" />
-                  <div className="ml-16 flex-1 md:ml-0">
-                    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                      <div className="font-mono text-sm font-semibold text-accent">
-                        {item.year}
-                      </div>
-                      <h3 className="mt-2 font-display text-xl tracking-tight text-slate-900">
-                        {item.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-slate-500">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="hidden flex-1 md:block" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-slate-200 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <h2 className="text-center font-display text-3xl tracking-tight mb-12">The team</h2>
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                name: "Sarah Chen",
-                role: "Founder / CEO",
-                bio: "Ex-Gmail security team. Built the OAuth revocation system used by 2B+ accounts. Left to build email that respects users.",
-              },
-              {
-                name: "Marcus Webb",
-                role: "Founder / CTO",
-                bio: "Ex-Outlook encryption lead. Designed the key rotation protocol for Microsoft 365. Wants encryption that doesn't require a PhD to use.",
-              },
-              {
-                name: "Priya Patel",
-                role: "Lead Engineer",
-                bio: "Ex-Fastmail core sync. Wrote the JMAP implementation that powers their mobile apps. Obsessed with search that actually finds things.",
-              },
-            ].map((person) => (
-              <article
-                key={person.name}
-                className="rounded-xl border border-slate-200 bg-white p-8 transition-all hover:border-accent/20 hover:shadow-md"
-              >
-                <div className="font-display text-xl tracking-tight text-slate-900">
-                  {person.name}
-                </div>
-                <div className="mt-1 text-sm font-medium text-accent">
-                  {person.role}
-                </div>
-                <p className="mt-4 text-sm leading-relaxed text-slate-600">
-                  {person.bio}
                 </p>
               </article>
             ))}
