@@ -29,14 +29,9 @@ blocked by default, and your settings follow you across devices.
 
 ```bash
 npm install
-cp .env.example .env.local   # then fill in the values below
 npx prisma migrate dev       # apply the schema to your database
 npm run dev                  # http://localhost:3000
 ```
-
-> Prisma reads `.env`, **not** `.env.local`. Either keep `DATABASE_URL` /
-> `DIRECT_URL` in `.env`, or preload before Prisma CLI commands:
-> `set -a; . ./.env.local; set +a; npx prisma migrate dev`
 
 ### Scripts
 

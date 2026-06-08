@@ -44,3 +44,6 @@ next-env.d.ts
 # codegraph indexer (contains a live unix socket that crashes Tailwind's
 # project scan if not ignored)
 /.codegraph/
+
+CLAUDE.node_modules
+AGENTS.node_modules
