@@ -42,7 +42,7 @@ export default function Nav() {
               className="appearance-none bg-white border border-slate-200 rounded-md px-3 py-1.5 pr-8 text-xs font-medium uppercase tracking-wide text-slate-700 transition-all outline-none cursor-pointer hover:border-slate-300 focus:border-accent focus:ring-1 focus:ring-accent"
             >
               <option value="en">English</option>
-              <option value="fr">Fran\u00e7ais</option>
+              <option value="fr">Français</option>
             </select>
             <i
               className="fa-solid fa-chevron-down pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500"
