@@ -32,8 +32,11 @@ const columns = [
 ];
 
 const socials = [
-  { label: "GitHub", href: "https://github.com/tarnmail/", icon: "fa-brands fa-github" },
-  { label: "Instagram", href: "https://instagram.com/tarnmail/", icon: "fa-brands fa-instagram" },
+  {
+    href: "https://github.com/Arcbasehq/TarnMail",
+    icon: "fa-brands fa-github",
+  },
+  { href: "https://instagram.com/tarnmail/", icon: "fa-brands fa-instagram" },
 ];
 
 export default function Footer() {
@@ -51,14 +54,13 @@ export default function Footer() {
             <div className="mt-5 flex gap-4 text-sm text-slate-500">
               {socials.map((s) => (
                 <a
-                  key={s.label}
+                  key={s.href}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 text-sm text-slate-600 transition-colors hover:text-slate-900"
                 >
                   <i className={`${s.icon} text-base`} aria-hidden />
-                  {s.label}
                 </a>
               ))}
             </div>
