@@ -1,0 +1,158 @@
+// Auth.js (NextAuth v5) + Prisma — database session strategy.
+// The `Account` table is the source of truth for OAuth tokens
+// (access_token + refresh_token) used later for Gmail / Microsoft Graph.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL") // Supabase pooled vs direct (migrations)
+}
+
+enum Plan {
+  FREE
+  DEEP
+  FATHOM
+  BUSINESS
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  REVOKED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  plan          Plan      @default(FREE)
+  // User settings (appearance/privacy/security/mail), persisted server-side so
+  // they follow the user across devices. Shape mirrors the client `Preferences`
+  // type; stored as JSON so adding a pref needs no migration.
+  preferences   Json?
+
+  accounts         Account[]
+  sessions         Session[]
+  mailboxes        ConnectedMailbox[]
+  businessWorkspace BusinessWorkspace?
+  teamMemberships  TeamMember[]
+}
+
+// Source of truth for every mailbox a user has connected, including the one
+// they logged in with (isPrimary). Decoupled from the Auth.js `Account` table
+// so a single login can fan out across many Gmail/Outlook boxes (unified
+// timeline) without entangling login identity. Token columns are encrypted at
+// rest in Plan C.
+model ConnectedMailbox {
+  id                String   @id @default(cuid())
+  userId            String
+  provider          String // "google" | "microsoft-entra-id" | "yahoo"
+  providerAccountId String
+  email             String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  scope             String?
+  isPrimary         Boolean  @default(false)
+  createdAt         DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider, providerAccountId])
+  @@index([userId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String // "google" | "microsoft-entra-id" | "yahoo"
+  providerAccountId String
+  refresh_token     String? @db.Text // stored for offline Gmail/Graph access
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model BusinessWorkspace {
+  id        String   @id @default(cuid())
+  ownerId   String   @unique
+  name      String   @default("My Business")
+  createdAt DateTime @default(now())
+
+  owner   User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  members TeamMember[]
+  audit   AuditLog[]
+}
+
+model TeamMember {
+  id          String       @id @default(cuid())
+  workspaceId String
+  userId      String?
+  email       String
+  role        TeamRole     @default(MEMBER)
+  status      InviteStatus @default(PENDING)
+  invitedAt   DateTime     @default(now())
+  joinedAt    DateTime?
+
+  workspace BusinessWorkspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([workspaceId, email])
+  @@index([workspaceId])
+  @@index([userId])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  workspaceId String
+  actorId     String
+  action      String
+  target      String?
+  metadata    String?  @db.Text
+  createdAt   DateTime @default(now())
+
+  workspace BusinessWorkspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@index([createdAt])
+}

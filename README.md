@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tarnmail
 
-## Getting Started
+A privacy-first **unified email client**. Connect Gmail, Outlook, and Yahoo
+mailboxes and read them in one timeline — without handing your mail to a third
+party. OAuth tokens are encrypted at rest, remote images and trackers are
+blocked by default, and your settings follow you across devices.
 
-First, run the development server:
+> **Note on the framework:** this app targets **Next.js 16** (App Router,
+> Turbopack, the `proxy` convention that replaced `middleware`). APIs differ
+> from older Next.js — consult `node_modules/next/dist/docs/` before changing
+> framework-level code. See `AGENTS.md`.
+
+## Tech stack
+
+| Concern         | Choice                                                                       |
+| --------------- | ---------------------------------------------------------------------------- |
+| Framework       | Next.js 16 · React 19 · TypeScript                                           |
+| Styling         | Tailwind CSS v4                                                              |
+| Auth            | Auth.js (NextAuth v5) + Prisma adapter                                       |
+| Database        | Prisma 6 → PostgreSQL (Supabase: pooled `DATABASE_URL`, direct `DIRECT_URL`) |
+| Mail providers  | Google (Gmail), Microsoft Graph (Outlook), Yahoo                             |
+| Billing         | RevenueCat (`FREE` · `DEEP` · `FATHOM` · `BUSINESS` plans)                   |
+| Bot defense     | ALTCHA proof-of-work                                                         |
+| Monitoring      | Sentry                                                                       |
+| Marketing video | Remotion                                                                     |
+| i18n            | i18next (English, French)                                                    |
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # then fill in the values below
+npx prisma migrate dev       # apply the schema to your database
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> Prisma reads `.env`, **not** `.env.local`. Either keep `DATABASE_URL` /
+> `DIRECT_URL` in `.env`, or preload before Prisma CLI commands:
+> `set -a; . ./.env.local; set +a; npx prisma migrate dev`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script                    | Purpose                           |
+| ------------------------- | --------------------------------- |
+| `npm run dev`             | Dev server (Turbopack)            |
+| `npm run build`           | Production build                  |
+| `npm run start`           | Serve the production build        |
+| `npm run lint`            | ESLint                            |
+| `npm run remotion`        | Remotion Studio (marketing video) |
+| `npm run remotion:render` | Render the hero preview           |
 
-## Learn More
+## Project layout
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/
+    (marketing)/   Public site (pricing, features, blog, legal, …)
+    (app)/         Authenticated app: inbox, settings, business workspace
+    admin/         Global site-admin dashboard (operators only)
+    api/           Auth, mailbox OAuth connect, RevenueCat webhook, ALTCHA
+  lib/
+    auth/          Session helpers, encrypted token store, admin allowlist
+    google/ microsoft/ yahoo/   Per-provider mail clients
+    mail/          Provider-agnostic dispatcher
+    crypto.ts      Token encryption (TOKEN_ENC_KEY)
+  proxy.ts         Subdomain routing + auth gate (Next 16 proxy)
+prisma/            Schema + migrations
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Two admin surfaces (don't confuse them)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **`/business`** — a _customer_ dashboard for `BUSINESS`-plan owners. Scoped to
+  the owner's own workspace: invite employees, manage roles, see each employee's
+  connected mailboxes. Never spans other customers.
+- **`admin.tarnmail.xyz` → `/admin`** — the _operator_ dashboard. Gated by the
+  `ADMIN_EMAILS` allowlist (not by plan). Non-admins get a 404.
 
-## Deploy on Vercel
+## Deploying
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Built for Vercel. Before promoting to production: set every env var above
+(including `ADMIN_EMAILS` and `COOKIE_DOMAIN`), apply Prisma migrations against
+the production database, and point `admin.tarnmail.xyz` DNS at the app.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Conduct
+
+Participation in this project is governed by our
+[Code of Conduct](./CODE_OF_CONDUCT.md).
