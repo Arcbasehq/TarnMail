@@ -1,82 +1,27 @@
-# tarnmail
+# TarnMail
 
-A privacy-first **unified email client**. Connect Gmail, Outlook, and Yahoo
-mailboxes and read them in one timeline — without handing your mail to a third
-party. OAuth tokens are encrypted at rest, remote images and trackers are
-blocked by default, and your settings follow you across devices.
+**One inbox for all your email.**
 
-> **Note on the framework:** this app targets **Next.js 16** (App Router,
-> Turbopack, the `proxy` convention that replaced `middleware`). APIs differ
-> from older Next.js — consult `node_modules/next/dist/docs/` before changing
-> framework-level code. See `AGENTS.md`.
+TarnMail is a privacy-first unified email client. Connect your Gmail, Outlook,
+and Yahoo accounts and read everything in a single, clean timeline — without
+handing your mail over to a third party.
 
-## Tech stack
+## Why TarnMail
 
-| Concern         | Choice                                                                       |
-| --------------- | ---------------------------------------------------------------------------- |
-| Framework       | Next.js 16 · React 19 · TypeScript                                           |
-| Styling         | Tailwind CSS v4                                                              |
-| Auth            | Auth.js (NextAuth v5) + Prisma adapter                                       |
-| Database        | Prisma 6 → PostgreSQL (Supabase: pooled `DATABASE_URL`, direct `DIRECT_URL`) |
-| Mail providers  | Google (Gmail), Microsoft Graph (Outlook), Yahoo                             |
-| Billing         | RevenueCat (`FREE` · `DEEP` · `FATHOM` · `BUSINESS` plans)                   |
-| Bot defense     | ALTCHA proof-of-work                                                         |
-| Monitoring      | Sentry                                                                       |
-| Marketing video | Remotion                                                                     |
-| i18n            | i18next (English, French)                                                    |
+- **All your mail in one place.** Gmail, Outlook, and Yahoo together in one
+  unified inbox, sorted by what matters.
+- **Private by default.** Remote images and tracking pixels are blocked out of
+  the box, so senders can't see when or where you open their mail.
+- **Yours, everywhere.** Your preferences and signatures follow you across every
+  device you sign in on.
+- **Built for teams.** Business workspaces let owners invite employees, manage
+  their roles, and keep everyone's mailboxes organized in one dashboard.
 
-## Getting started
+## Plans
 
-```bash
-npm install
-npx prisma migrate dev       # apply the schema to your database
-npm run dev                  # http://localhost:3000
-```
+TarnMail offers a free tier plus paid plans with more connected mailboxes,
+priority sync, and team features.
 
-### Scripts
+---
 
-| Script                    | Purpose                           |
-| ------------------------- | --------------------------------- |
-| `npm run dev`             | Dev server (Turbopack)            |
-| `npm run build`           | Production build                  |
-| `npm run start`           | Serve the production build        |
-| `npm run lint`            | ESLint                            |
-| `npm run remotion`        | Remotion Studio (marketing video) |
-| `npm run remotion:render` | Render the hero preview           |
-
-## Project layout
-
-```
-src/
-  app/
-    (marketing)/   Public site (pricing, features, blog, legal, …)
-    (app)/         Authenticated app: inbox, settings, business workspace
-    admin/         Global site-admin dashboard (operators only)
-    api/           Auth, mailbox OAuth connect, RevenueCat webhook, ALTCHA
-  lib/
-    auth/          Session helpers, encrypted token store, admin allowlist
-    google/ microsoft/ yahoo/   Per-provider mail clients
-    mail/          Provider-agnostic dispatcher
-    crypto.ts      Token encryption (TOKEN_ENC_KEY)
-  proxy.ts         Subdomain routing + auth gate (Next 16 proxy)
-prisma/            Schema + migrations
-```
-
-### Two admin surfaces (don't confuse them)
-
-- **`/business`** — a _customer_ dashboard for `BUSINESS`-plan owners. Scoped to
-  the owner's own workspace: invite employees, manage roles, see each employee's
-  connected mailboxes. Never spans other customers.
-- **`admin.tarnmail.xyz` → `/admin`** — the _operator_ dashboard. Gated by the
-  `ADMIN_EMAILS` allowlist (not by plan). Non-admins get a 404.
-
-## Deploying
-
-Built for Vercel. Before promoting to production: set every env var above
-(including `ADMIN_EMAILS` and `COOKIE_DOMAIN`), apply Prisma migrations against
-the production database, and point `admin.tarnmail.xyz` DNS at the app.
-
-## Conduct
-
-Participation in this project is governed by our
-[Code of Conduct](./CODE_OF_CONDUCT.md).
+© TarnMail. All rights reserved.
